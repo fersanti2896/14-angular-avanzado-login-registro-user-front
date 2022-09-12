@@ -1,16 +1,11 @@
-# Adminpro - Resumen de la Sección 8: Observables y Promesas
+# AdminPro - Resumen de la Sección 14: Implementar Login y Register de Usuarios en FrontEnd
 
-Esta sección tiene por objetivo principal, trabajar con observables y promesas:
+Esta sección tiene por objetivo implementar la seguridad de nuestra aplicación:
 
-- Se trabaja con promesas y funciones que retornan promesas.
-- Se aprende a crear un observable manualmente.
-- Se trabaja con operadores de los observables como:
-    - Retry
-    - Map
-    - Filter
-    - Next
-- Funciones que retornan observables.
-- Se usa el conocimiento aprendido para crear un componente de seguimiento de la página actual.
-- Se usa observables para leer parámetros de configuración de las rutas que son diferentes a los parámetros de las rutas por url.
-- Se cambia los metatags dependiendo de la página donde nos encontremos.
-- Se cambia el titulo de la página actual.
+- Conectando el Front-end con el Back-end (login)
+- Uso del Sweet Alert para mostrar mensajes.
+- Implementación de Login normal de usuario.
+- Implementación del Login de Google.
+- Uso del LocalStorage para almacenar tokens.
+- Protección básica de rutas.
+- Implementación de Logout.
