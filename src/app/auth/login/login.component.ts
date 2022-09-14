@@ -1,19 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: [ './login.component.css' ]
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  public formSubmitted = false;
 
-  constructor( private router: Router ) { }
+  public loginForm = this.fb.group( {
+    email: [ '', [ Validators.required, Validators.email ] ],
+    password: [ '', Validators.required ],
+    remember: [ false ]
+  });
 
-  ngOnInit(): void {
-  }
+  constructor( private fb: FormBuilder,
+               private usuarioService: UsuarioService ) { }
 
   login() {
-    this.router.navigateByUrl('/');
+    /* Se inicia sesion */
+    this.usuarioService.login( this.loginForm.value )
+                        .subscribe( resp => {
+                          console.log( 'Usuario Logueado' );
+                          console.log( resp );
+                        }, (err) => {
+                          /* Si sucede un error */
+                          Swal.fire('Error', err.error.msg, 'error');
+                        });
+  }
+
+  campoNoValido( campo: string ): boolean {
+    if( this.loginForm.get( campo )?.invalid && this.formSubmitted ) { 
+      return true;
+    } else {
+      return false;
+    }
   }
 }
