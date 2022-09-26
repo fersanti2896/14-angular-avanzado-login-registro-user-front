@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -9,13 +10,15 @@ import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
 
 const base_url = environment.base_url;
+declare const google: any;
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
-  constructor( private http: HttpClient ) { }
+  constructor( private http: HttpClient,
+               private router: Router ) { }
 
   validarToken(): Observable<boolean> {
     const token = localStorage.getItem('token') || '';
@@ -32,6 +35,14 @@ export class UsuarioService {
       map( resp => true),
       catchError( error => of(false))
     );
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+
+    google.accounts.id.revoke( 'fersanti2896@gmail.com', () => {
+      this.router.navigateByUrl('/login');
+    })
   }
 
   crearUsuario( formData: RegisterForm ) {
