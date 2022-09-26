@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { subscribeOn } from 'rxjs';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
@@ -23,7 +24,8 @@ export class LoginComponent implements AfterViewInit {
   });
 
   constructor( private fb: FormBuilder,
-               private usuarioService: UsuarioService ) { }
+               private usuarioService: UsuarioService,
+               private router: Router ) { }
 
   login() {
     /* Se inicia sesion */
@@ -34,6 +36,9 @@ export class LoginComponent implements AfterViewInit {
                           } else {
                             localStorage.removeItem('email');
                           }
+
+                          /* Hace la navegación al dashboard */
+                          this.router.navigateByUrl('/');
                         }, (err) => {
                           /* Si sucede un error */
                           Swal.fire('Error', err.error.msg, 'error');
@@ -63,7 +68,8 @@ export class LoginComponent implements AfterViewInit {
   handleCredentialResponse( response: any ) {
     this.usuarioService.loginGogle( response.credential )
                        .subscribe( resp => {
-                        console.log({ login: resp })
+                        /* Hace la navegación al dashboard */
+                        this.router.navigateByUrl('/');
                        } );
   }
 
