@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { subscribeOn } from 'rxjs';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
 
@@ -50,7 +51,7 @@ export class LoginComponent implements AfterViewInit {
   googleInit() {
     google.accounts.id.initialize({
       client_id: '329466637365-hrtaah75vcarj3g852cfg7g64g15nt21.apps.googleusercontent.com',
-      callback: this.handleCredentialResponse,
+      callback: ( response: any) => this.handleCredentialResponse( response ),
     });
     google.accounts.id.renderButton(
       //document.getElementById("buttonDiv"),
@@ -60,7 +61,10 @@ export class LoginComponent implements AfterViewInit {
   }
 
   handleCredentialResponse( response: any ) {
-    console.log("Encoded JWT ID token: " + response.credential);
+    this.usuarioService.loginGogle( response.credential )
+                       .subscribe( resp => {
+                        console.log({ login: resp })
+                       } );
   }
 
   ngAfterViewInit(): void {
